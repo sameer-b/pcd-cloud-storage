@@ -1,0 +1,25 @@
+{
+  "name": "pcdstorage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://56edbef30c1e66a5c40000f5@pcdstorage-trackerweb.rhcloud.com/~/git/pcdstorage.git/"
+  },
+  "author": "Sameer Balasubrahmanyam",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "monk": "*",
+    "mongodb": "*",
+    "express-handlebars" : "*",
+    "body-parser": "*",
+    "cookie-parser": "*",
+    "express-fileupload": "*",
+    "multer": "*"
+  }
+}
