@@ -6,13 +6,15 @@ var user = require('./lib/user.js');
 var file = require('./lib/file.js');
 var exphbs = require('express-handlebars');
 var multer  = require('multer');
+var exec = require('child_process').exec, child;
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/')
   },
   filename: function (req, file, cb) {
-    cb(null,   Date.now() + file.originalname);
+    cb(null, file.originalname);
   }
 });
 
@@ -70,9 +72,27 @@ app.get('/addFiles', function(req, res) {
 });
 
 app.post('/upload', function(req, res) {
-    console.log(req.file);
-    res.send();
-    //file.uploadFile(req, res);
+    console.log(process.env.PCD_PUB_FILE);
+    child = exec('java -jar ' + __dirname + '\\lib\\PCDBridge.jar ' +  __dirname + '\\uploads\\' + req.file.originalname ,
+        {
+            env: {
+                'PCD_PUB_FILE': process.env.PCD_PUB_FILE,
+                'PCD_PRV_FILE': process.env.PCD_PRV_FILE
+            }
+        }, function (error, stdout, stderr){
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+
+            if (error || stderr) {
+                res.send("Something went wrong");
+                return;
+            }
+
+            if(stdout) {
+                res.send("File uploaded");
+                return;
+            }
+    });
 });
 
 app.listen(3000, function () {
