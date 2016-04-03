@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(multer({storage:storage}).single('file'));
 
 app.get('/', function (req, res) {
-    if(req.cookies && req.cookies.email) {
+    if (req.cookies && req.cookies.email) {
         res.redirect('files');
     } else {
         res.redirect('login');
