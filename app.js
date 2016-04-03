@@ -1,13 +1,11 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser')
-var user = require('./lib/user.js');
-var file = require('./lib/file.js');
-var exphbs = require('express-handlebars');
-var multer  = require('multer');
-var exec = require('child_process').exec, child;
-
+var express = require('express'),
+    app = express(),
+    bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
+    user = require('./lib/user.js'),
+    file = require('./lib/file.js'),
+    exphbs = require('express-handlebars'),
+    multer  = require('multer');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -24,7 +22,6 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser());
 app.use(multer({storage:storage}).single('file'));
-
 
 app.get('/', function (req, res) {
     if(req.cookies && req.cookies.email) {
