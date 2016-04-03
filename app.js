@@ -5,7 +5,8 @@ var express = require('express'),
     user = require('./lib/user.js'),
     file = require('./lib/file.js'),
     exphbs = require('express-handlebars'),
-    multer  = require('multer');
+    multer  = require('multer'),
+    home = require('./lib/home.js');
 
 var storage = multer.diskStorage({
     filename: function (req, file, cb) {
@@ -41,11 +42,7 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/files', function(req, res) {
-    if(req.cookies && req.cookies.email) {
-        res.render('files');
-    } else {
-        res.redirect('/login');
-    }
+    home.renderHome(req, res, {});
 });
 
 app.get('/logout', function(req, res) {
@@ -67,6 +64,14 @@ app.get('/addFiles', function(req, res) {
 
 app.post('/upload', function(req, res) {
     file.processFile(req, res);
+});
+
+app.get('/download/:file', function(req, res) {
+    file.download(req, res);
+});
+
+app.get('/delete/:file', function(req, res) {
+    file.delete(req, res);
 });
 
 app.listen(3000, function () {
